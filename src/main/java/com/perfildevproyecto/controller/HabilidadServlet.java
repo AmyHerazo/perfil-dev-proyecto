@@ -24,6 +24,7 @@ public class HabilidadServlet extends HttpServlet {
         return pi;
     }
 
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = pathId(req);
