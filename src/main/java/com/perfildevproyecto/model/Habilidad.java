@@ -1,3 +1,5 @@
+package com.perfildevproyecto.model;
+
 public class Habilidad {
     private String id;
     private String nombre;
