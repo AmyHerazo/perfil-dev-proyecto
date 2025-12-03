@@ -75,7 +75,8 @@
         </div>
 
         <script>
-            const API_URL = 'habilidades';
+            const API_URL = '${pageContext.request.contextPath}/habilidades';
+            let currentHabilidades = [];
 
             document.addEventListener('DOMContentLoaded', () => {
                 loadHabilidades();
@@ -88,8 +89,9 @@
                 try {
                     const response = await fetch(API_URL);
                     if (response.ok) {
-                        const habilidades = await response.json();
-                        renderHabilidades(habilidades);
+                        currentHabilidades = await response.json();
+                        console.log('DEBUG - Habilidades recibidas:', currentHabilidades);
+                        renderHabilidades(currentHabilidades);
                     }
                 } catch (error) {
                     console.error('Error:', error);
@@ -109,17 +111,22 @@
                 habilidades.forEach(h => {
                     const item = document.createElement('div');
                     item.className = 'skill-item';
-                    item.innerHTML = `
-                    <div class="skill-info">
-                        <h3>${h.nombre} <span class="badge">${h.categoria}</span></h3>
-                        <div class="skill-level">Nivel: ${'★'.repeat(h.nivel)}${'☆'.repeat(5 - h.nivel)}</div>
-                        <p>${h.descripcion || ''}</p>
-                    </div>
-                    <div class="skill-actions">
-                        <button onclick='editHabilidad(${JSON.stringify(h)})' class="btn-icon edit">✎</button>
-                        <button onclick="deleteHabilidad('${h.id}')" class="btn-icon delete">🗑</button>
-                    </div>
-                `;
+
+                    // Use string concatenation to avoid JSP EL conflict
+                    const stars = '★'.repeat(h.nivel) + '☆'.repeat(5 - h.nivel);
+
+                    let html = '<div class="skill-info">';
+                    html += '<h3>' + h.nombre + ' <span class="badge">' + h.categoria + '</span></h3>';
+                    html += '<div class="skill-level">Nivel: ' + stars + '</div>';
+                    html += '<p>' + (h.descripcion || '') + '</p>';
+                    html += '</div>';
+
+                    html += '<div class="skill-actions">';
+                    html += '<button onclick="editHabilidad(\'' + h.id + '\')" class="btn-icon edit">✎</button>';
+                    html += '<button onclick="deleteHabilidad(\'' + h.id + '\')" class="btn-icon delete">🗑</button>';
+                    html += '</div>';
+
+                    item.innerHTML = html;
                     container.appendChild(item);
                 });
             }
@@ -161,7 +168,7 @@
                 if (!confirm('¿Estás seguro de eliminar esta habilidad?')) return;
 
                 try {
-                    const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                    const response = await fetch(API_URL + '/' + id, { method: 'DELETE' });
                     if (response.ok) {
                         showMessage('Habilidad eliminada', 'success');
                         loadHabilidades();
@@ -173,7 +180,10 @@
                 }
             }
 
-            window.editHabilidad = function (h) {
+            function editHabilidad(id) {
+                const h = currentHabilidades.find(skill => skill.id === id);
+                if (!h) return;
+
                 document.getElementById('id').value = h.id;
                 document.getElementById('nombre').value = h.nombre;
                 document.getElementById('categoria').value = h.categoria;
@@ -184,7 +194,7 @@
                 document.getElementById('btn-save').textContent = 'Actualizar';
                 document.getElementById('btn-cancel').style.display = 'inline-block';
                 window.scrollTo(0, 0);
-            };
+            }
 
             function resetForm() {
                 document.getElementById('habilidad-form').reset();

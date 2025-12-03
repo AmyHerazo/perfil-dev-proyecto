@@ -11,7 +11,8 @@ import java.util.List;
 
 public class HabilidadDAOJSON implements HabilidadDAO {
 
-    private final String archivo = System.getProperty("user.home") + File.separator + "habilidades.json";
+    private final String archivo = System.getProperty("user.dir") + File.separator + "data" + File.separator
+            + "habilidades.json";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -35,7 +36,11 @@ public class HabilidadDAOJSON implements HabilidadDAO {
             List<Habilidad> habilidades = listarTodas();
             habilidad.setId(generarNuevoId());
             habilidades.add(habilidad);
-            objectMapper.writeValue(new File(archivo), habilidades);
+            File file = new File(archivo);
+            if (file.getParentFile() != null) {
+                file.getParentFile().mkdirs();
+            }
+            objectMapper.writeValue(file, habilidades);
         } catch (IOException e) {
             System.err.println("Error agregando habilidad: " + e.getMessage());
             throw new RuntimeException("No se pudo agregar la habilidad");

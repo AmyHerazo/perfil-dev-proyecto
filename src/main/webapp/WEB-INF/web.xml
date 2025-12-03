@@ -10,7 +10,7 @@
     <!-- Configuración de Servlets -->
     <servlet>
         <servlet-name>PerfilServlet</servlet-name>
-        <servlet-class>com.miperfildev.controller.PerfilServlet</servlet-class>
+        <servlet-class>com.perfildevproyecto.controller.PerfilServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PerfilServlet</servlet-name>
@@ -19,7 +19,7 @@
     
     <servlet>
         <servlet-name>HabilidadServlet</servlet-name>
-        <servlet-class>com.miperfildev.controller.HabilidadServlet</servlet-class>
+        <servlet-class>com.perfildevproyecto.controller.HabilidadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HabilidadServlet</servlet-name>

@@ -33,6 +33,7 @@ public class HabilidadServlet extends HttpServlet {
 
         if (id == null) {
             List<Habilidad> lista = habilidadDao.listarTodas();
+            System.out.println("DEBUG - Enviando lista (" + lista.size() + "): " + lista);
             mapper.writeValue(resp.getOutputStream(), lista);
         } else {
             Habilidad h = habilidadDao.buscarPorId(id);
@@ -48,7 +49,21 @@ public class HabilidadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        Habilidad nueva = mapper.readValue(req.getReader(), Habilidad.class);
+
+        // Debugging: Read body to string
+        StringBuilder sb = new StringBuilder();
+        String line;
+        try (java.io.BufferedReader reader = req.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        }
+        String jsonReceived = sb.toString();
+        System.out.println("DEBUG - JSON Recibido: " + jsonReceived);
+
+        Habilidad nueva = mapper.readValue(jsonReceived, Habilidad.class);
+        System.out.println("DEBUG - Objeto Parseado: " + nueva);
+
         habilidadDao.agregar(nueva);
         resp.setContentType("application/json; charset=UTF-8");
         resp.setStatus(HttpServletResponse.SC_CREATED);
