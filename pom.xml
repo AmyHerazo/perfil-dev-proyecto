@@ -9,6 +9,7 @@
     <artifactId>mi-perfil-dev</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
+    <description>Proyecto de Perfil de Desarrollador</description>
     
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

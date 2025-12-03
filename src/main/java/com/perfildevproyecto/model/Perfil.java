@@ -8,6 +8,9 @@ public class Perfil {
     private byte[] foto;
     private String experiencia;
 
+    public Perfil() {
+    }
+
     public Perfil(String nombre, String bio, String email, String telefono, byte[] foto, String experiencia) {
         this.nombre = nombre;
         this.bio = bio;
@@ -15,7 +18,6 @@ public class Perfil {
         this.telefono = telefono;
         this.foto = foto;
         this.experiencia = experiencia;
-
     }
 
     public String getNombre() {

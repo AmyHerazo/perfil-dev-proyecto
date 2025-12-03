@@ -7,13 +7,15 @@ public class Habilidad {
     private int nivel;
     private String descripcion;
 
+    public Habilidad() {
+    }
+
     public Habilidad(String id, String nombre, String categoria, int nivel, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
         this.nivel = nivel;
         this.descripcion = descripcion;
-
     }
 
     public String getId() {
