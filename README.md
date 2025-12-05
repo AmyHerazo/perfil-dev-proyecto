@@ -42,6 +42,17 @@ Desarrollar un portafolio web personalizable que permita mostrar y gestionar hab
 
 <img width="597" height="716" alt="image" src="https://github.com/user-attachments/assets/3680ca80-feaf-486e-b11e-cce835f34c55" />
 
+## 👥 Integrantes del grupo
+
+- Salomé Toro Cadavid  
+- María Fernanda Echeverri Osorio  
+- Amy Herazo Bossa  
+- Heiner Vallejo Bertel  
+- Miguel Velasco Agudelo  
+
+---
+
+
 
 
 
