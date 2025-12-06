@@ -8,16 +8,22 @@ public class Perfil {
     private byte[] foto;
     private String experiencia;
 
+    private String tituloBanner;
+    private String subtituloBanner;
+
     public Perfil() {
     }
 
-    public Perfil(String nombre, String bio, String email, String telefono, byte[] foto, String experiencia) {
+    public Perfil(String nombre, String bio, String email, String telefono, byte[] foto, String experiencia,
+            String tituloBanner, String subtituloBanner) {
         this.nombre = nombre;
         this.bio = bio;
         this.email = email;
         this.telefono = telefono;
         this.foto = foto;
         this.experiencia = experiencia;
+        this.tituloBanner = tituloBanner;
+        this.subtituloBanner = subtituloBanner;
     }
 
     public String getNombre() {
@@ -68,8 +74,23 @@ public class Perfil {
         this.experiencia = experiencia;
     }
 
-    @Override
+    public String getTituloBanner() {
+        return tituloBanner;
+    }
 
+    public void setTituloBanner(String tituloBanner) {
+        this.tituloBanner = tituloBanner;
+    }
+
+    public String getSubtituloBanner() {
+        return subtituloBanner;
+    }
+
+    public void setSubtituloBanner(String subtituloBanner) {
+        this.subtituloBanner = subtituloBanner;
+    }
+
+    @Override
     public String toString() {
         return "Perfil{" +
                 "nombre='" + nombre + '\'' +
@@ -78,7 +99,8 @@ public class Perfil {
                 ", telefono='" + telefono + '\'' +
                 ", foto=" + (foto != null ? foto.length + " bytes" : "null") +
                 ", experiencia='" + experiencia + '\'' +
+                ", tituloBanner='" + tituloBanner + '\'' +
+                ", subtituloBanner='" + subtituloBanner + '\'' +
                 '}';
     }
-
 }
