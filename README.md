@@ -42,6 +42,18 @@ Desarrollar un portafolio web personalizable que permita mostrar y gestionar hab
 
 <img width="597" height="716" alt="image" src="https://github.com/user-attachments/assets/3680ca80-feaf-486e-b11e-cce835f34c55" />
 
+---
+## Instrucciones de uso
+1. En la terminal del proyecto ubicarse en el path de perfil-dev-proyecto usando cd
+2. Ingresar el comando del wrapper .\mvnw clean package tomcat7:run
+3. Esperar a que el mensaje "INFORMACIÓN: Starting ProtocolHandler ["http-bio-8080"]" aparezca en la consola
+4. Ir al navegador de preferencia e ingresar la URL del host local http://localhost:8080/miperfildev/
+5. Iniciar sesión al final de la página abajo a la derecha
+
+Usuario: admin
+Contraseña: admin123
+
+---
 ## 👥 Integrantes del grupo
 
 - Salomé Toro Cadavid  
