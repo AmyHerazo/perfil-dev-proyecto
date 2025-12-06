@@ -40,6 +40,9 @@ public class PerfilServlet extends HttpServlet {
         String telefono = req.getParameter("telefono");
         String experiencia = req.getParameter("experiencia");
 
+        String tituloBanner = req.getParameter("tituloBanner");
+        String subtituloBanner = req.getParameter("subtituloBanner");
+
         byte[] fotoBytes = null;
         Part fotoPart = null;
         try {
@@ -64,7 +67,10 @@ public class PerfilServlet extends HttpServlet {
                 email != null ? email : "",
                 telefono != null ? telefono : "",
                 fotoBytes,
-                experiencia != null ? experiencia : "");
+                experiencia != null ? experiencia : "",
+                tituloBanner != null ? tituloBanner : "Mi Perfil",
+                subtituloBanner != null ? subtituloBanner
+                        : "Portafolio interactivo de desarrollo y habilidades técnicas");
 
         Perfil existente = perfilDao.cargarPerfil();
         if (existente == null) {

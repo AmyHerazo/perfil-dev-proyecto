@@ -8,6 +8,7 @@
         <title>Mi Portafolio</title>
         <link rel="stylesheet" href="css/style.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
             /* Specific styles for the portfolio view */
             .portfolio-header {
@@ -109,10 +110,28 @@
 
     <body>
         <div class="container">
-            <header>
-                <nav>
-                    <a href="index.jsp">← Volver al Inicio</a>
-                </nav>
+            <header class="landing-header">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-code"
+                            style="font-size: 3rem; color: var(--primary-color); margin-right: 1rem;"></i>
+                        <h1 id="banner-title">Mi Perfil<span class="highlight">Dev</span></h1>
+                    </div>
+                    <p class="subtitle" id="banner-subtitle">Portafolio interactivo de desarrollo y habilidades técnicas
+                    </p>
+
+                    <nav style="margin-top: 2rem;">
+                        <a href="index.jsp" class="btn"
+                            style="display: inline-block; color: white; text-decoration: none; font-weight: 600; background: rgba(255,255,255,0.1); padding: 0.75rem 1.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); transition: all 0.3s ease;">
+                            <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i> Volver al Inicio
+                        </a>
+                    </nav>
+                </div>
+                <div class="decoration">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
             </header>
 
             <main>
@@ -135,6 +154,14 @@
                         <p>Cargando habilidades...</p>
                     </div>
                 </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <h3 class="section-title">Mis Proyectos</h3>
+                    <div id="projects-container" class="skills-grid">
+                        <!-- Projects will be loaded here -->
+                        <p>Cargando proyectos...</p>
+                    </div>
+                </div>
             </main>
 
             <footer style="text-align: center; margin-top: 3rem; color: #888;">
@@ -145,10 +172,12 @@
         <script>
             const PERFIL_API = '${pageContext.request.contextPath}/perfil';
             const HABILIDADES_API = '${pageContext.request.contextPath}/habilidades';
+            const PROYECTOS_API = '${pageContext.request.contextPath}/proyectos';
 
             document.addEventListener('DOMContentLoaded', () => {
                 loadPerfil();
                 loadHabilidades();
+                loadProyectos();
             });
 
             async function loadPerfil() {
@@ -165,6 +194,19 @@
             }
 
             function renderPerfil(perfil) {
+                // Update Banner
+                if (perfil.tituloBanner) {
+                    const titleEl = document.getElementById('banner-title');
+                    if (perfil.tituloBanner.includes("Dev")) {
+                        titleEl.innerHTML = perfil.tituloBanner.replace("Dev", "<span class='highlight'>Dev</span>");
+                    } else {
+                        titleEl.textContent = perfil.tituloBanner;
+                    }
+                }
+                if (perfil.subtituloBanner) {
+                    document.getElementById('banner-subtitle').textContent = perfil.subtituloBanner;
+                }
+
                 const container = document.getElementById('profile-section');
                 const photoUrl = perfil.foto ? 'data:image/jpeg;base64,' + perfil.foto : 'https://via.placeholder.com/150';
 
@@ -223,6 +265,51 @@
                     cardContent += '<div class="skill-level" style="color: #f39c12;">' + stars + '</div>';
                     if (h.descripcion) {
                         cardContent += '<p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">' + h.descripcion + '</p>';
+                    }
+
+                    card.innerHTML = cardContent;
+                    container.appendChild(card);
+                });
+            }
+
+            async function loadProyectos() {
+                try {
+                    const response = await fetch(PROYECTOS_API);
+                    if (response.ok) {
+                        const proyectos = await response.json();
+                        renderProyectos(proyectos);
+                    }
+                } catch (error) {
+                    console.error('Error loading projects:', error);
+                    document.getElementById('projects-container').innerHTML = '<p>Error cargando proyectos.</p>';
+                }
+            }
+
+            function renderProyectos(proyectos) {
+                const container = document.getElementById('projects-container');
+                container.innerHTML = '';
+
+                if (proyectos.length === 0) {
+                    container.innerHTML = '<p>No hay proyectos para mostrar aún.</p>';
+                    return;
+                }
+
+                proyectos.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'skill-card'; // Reusing skill-card style for consistency
+
+                    let cardContent = '<div class="skill-header">';
+                    cardContent += '<span class="skill-name">' + p.titulo + '</span>';
+                    cardContent += '</div>';
+
+                    if (p.imagen) {
+                        cardContent += '<img src="' + p.imagen + '" alt="' + p.titulo + '" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:1rem;">';
+                    }
+
+                    cardContent += '<p style="margin-bottom: 1rem; color: var(--text-muted);">' + (p.descripcion || '') + '</p>';
+
+                    if (p.url) {
+                        cardContent += '<a href="' + p.url + '" target="_blank" class="btn btn-sm btn-primary" style="display:inline-block; padding:0.5rem 1rem; text-decoration:none; color:white; background-color:var(--primary-color); border-radius:4px;">Ver Proyecto</a>';
                     }
 
                     card.innerHTML = cardContent;

@@ -29,6 +29,17 @@
 
                     <form id="perfil-form" enctype="multipart/form-data">
                         <div class="form-group">
+                            <label for="tituloBanner">Título del Banner:</label>
+                            <input type="text" id="tituloBanner" name="tituloBanner" placeholder="Ej. Mi Perfil Dev">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subtituloBanner">Subtítulo del Banner:</label>
+                            <input type="text" id="subtituloBanner" name="subtituloBanner"
+                                placeholder="Ej. Portafolio interactivo...">
+                        </div>
+
+                        <div class="form-group">
                             <label for="nombre">Nombre:</label>
                             <input type="text" id="nombre" name="nombre" required>
                         </div>
@@ -98,7 +109,12 @@
                     const response = await fetch('perfil');
                     if (response.ok) {
                         const data = await response.json();
-                        if (data) updateUI(data);
+                        if (data) {
+                            updateUI(data);
+                            if (data.foto) {
+                                document.getElementById('foto-preview').src = 'data:image/jpeg;base64,' + data.foto;
+                            }
+                        }
                     }
                 } catch (error) {
                     console.error('Error cargando perfil:', error);
@@ -111,15 +127,11 @@
                 document.getElementById('email').value = data.email || '';
                 document.getElementById('telefono').value = data.telefono || '';
                 document.getElementById('experiencia').value = data.experiencia || '';
+                document.getElementById('tituloBanner').value = data.tituloBanner || '';
+                document.getElementById('subtituloBanner').value = data.subtituloBanner || '';
 
                 document.getElementById('display-nombre').textContent = data.nombre || 'Sin Nombre';
                 document.getElementById('display-bio').textContent = data.bio || '';
-
-                if (data.foto) {
-                    // Assuming foto is base64 encoded by the backend or we handle it here
-                    // The backend sends byte[], Jackson serializes it as Base64 string by default
-                    document.getElementById('foto-preview').src = 'data:image/jpeg;base64,' + data.foto;
-                }
             }
 
             function showMessage(msg, type) {
